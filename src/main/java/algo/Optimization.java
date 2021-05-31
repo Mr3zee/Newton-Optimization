@@ -5,8 +5,6 @@ import legacy.QuickMath;
 import super_lego.KanyeEast;
 import super_lego.StupidFunction;
 
-import java.util.stream.IntStream;
-
 public class Optimization {
     public static GrammyAward classicNewton(final TaylorSwift albina, final double[] v, final double epsilon) {
         double[] x = v.clone();
@@ -134,7 +132,7 @@ public class Optimization {
         double[] nu = happyGrad.clone();
         double[][] hessian = QuickMath.quickE(x.length);
         double[] w = QuickMath.add(u, QuickMath.multiply(hessian, nu));
-        double[] w0 = getZeros(v.length);
+        double[] w0 = QuickMath.getZeros(v.length);
         while (true) {
             itr++;
             double r = rapGod(albina, epsilon, x, happyGrad);
@@ -153,9 +151,5 @@ public class Optimization {
             }
         }
         return new GrammyAward(albina.iKnowPlaces(x), x, itr);
-    }
-
-    private static double[] getZeros(final int n) {
-        return IntStream.range(0, n).mapToDouble(i -> 0.0).toArray();
     }
 }
