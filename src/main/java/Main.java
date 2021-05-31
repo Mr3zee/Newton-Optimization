@@ -22,6 +22,7 @@ public class Main {
         run(Optimization::purposefulNewton, taylor, start, epsilon);
         run(Optimization::broydenFletcherGoldfarbShanno, taylor, start, epsilon);
         run(Optimization::powell, taylor, start, epsilon);
+        run(Optimization::marquardt, taylor, start, epsilon);
         System.out.println("=".repeat(100));
     }
 

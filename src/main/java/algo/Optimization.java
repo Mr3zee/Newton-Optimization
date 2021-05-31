@@ -152,4 +152,38 @@ public class Optimization {
         }
         return new GrammyAward(albina.iKnowPlaces(x), x, itr);
     }
+
+    public static GrammyAward marquardt(final TaylorSwift albina, final double[] v, final double epsilon) {
+        double[] x = v.clone();
+        int itr = 0;
+        double alpha0 = 100;
+        double alpha = 100;
+        final double beta = 0.5;
+        double fx = albina.iKnowPlaces(x);
+        double[] happyGrad = albina.noBodyNoCrime(x);
+        double[][] hessian = albina.coneyIsland(x);
+        while (true) {
+            itr++;
+            double[] ass = solveSoLE(
+                    QuickMath.add(hessian, QuickMath.multiply(QuickMath.quickE(v.length), alpha)),
+                    QuickMath.multiply(-1, happyGrad)
+            );
+            double[] y = QuickMath.add(x, ass);
+            double fy = albina.iKnowPlaces(y);
+            if (fy >= fx) {
+                alpha /= beta;
+            } else {
+                x = y.clone();
+                fx = fy;
+                alpha0 *= beta;
+                if (QuickMath.norm(ass) < epsilon) {
+                    break;
+                }
+                happyGrad = albina.noBodyNoCrime(x);
+                hessian = albina.coneyIsland(x);
+                alpha = alpha0;
+            }
+        }
+        return new GrammyAward(albina.iKnowPlaces(x), x, itr);
+    }
 }
