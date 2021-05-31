@@ -1,20 +1,28 @@
+import algo.era.$1989Era;
 import algo.era.RedEra;
 import algo.GrammyAward;
 import algo.Optimization;
 import algo.TaylorSwift;
+import algo.era.SpeakNowEra;
 
 import static legacy.Util.printVector;
 
 public class Main {
     public static void main(String[] args) {
-        final double[] start = new double[] {-1.2, 1};
         final double epsilon = 1E-7;
-        final TaylorSwift taylor = new RedEra();
+        test(new SpeakNowEra(), epsilon, 4, 1);
+        test(new RedEra(), epsilon, -1.2, 1);
+        test(new $1989Era(), epsilon, 2, -3);
+    }
+
+    private static void test(final TaylorSwift taylor, final double epsilon, final double... start) {
+        System.out.format("%s%nTesting %s%n%n", "=".repeat(100), taylor.getClass().getSimpleName());
         run(Optimization::classicNewton, taylor, start, epsilon);
         run(Optimization::boringNewton, taylor, start, epsilon);
         run(Optimization::purposefulNewton, taylor, start, epsilon);
         run(Optimization::broydenFletcherGoldfarbShanno, taylor, start, epsilon);
         run(Optimization::powell, taylor, start, epsilon);
+        System.out.println("=".repeat(100));
     }
 
     private static void run(final Run run, final TaylorSwift taylorSwift, final double[] start, final double eps) {
@@ -23,7 +31,7 @@ public class Main {
         System.out.println("OK");
         System.out.print("x vector: ");
         printVector(award.x());
-        System.out.format("y min: %s, itr: %s%n", award.y(), award.itr());
+        System.out.format("y min: %s%nitr: %s%n%n", award.y(), award.itr());
     }
 
     @FunctionalInterface
