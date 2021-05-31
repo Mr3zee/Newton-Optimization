@@ -55,4 +55,53 @@ public class QuickMath {
             throw new IllegalArgumentException(String.format("a and b should be the same length: %d, %d", a.length, b.length));
         }
     }
+
+    public static double[][] quickE(final int n) {
+        return IntStream.range(0, n)
+                .mapToObj(i -> IntStream.range(0, n).mapToDouble(j -> i == j ? 1.0 : 0.0).toArray())
+                .toArray(double[][]::new);
+    }
+
+    public static double[] multiply(final double[][] m, final double[] v) {
+        final double[] c = new double[m.length];
+        for (int i = 0; i < m.length; i++) {
+            checkDimensions(m[i], v);
+            for (int j = 0; j < v.length; j++) {
+                c[i] += v[j] * m[i][j];
+            }
+        }
+        return c;
+    }
+
+    public static double[][] multiply(final double[] a, final double[] b) {
+        final double[][] c = new double[a.length][b.length];
+        for (int i = 0; i < a.length; i++) {
+            for (int j = 0; j < b.length; j++) {
+                c[i][j] = a[i] * b[j];
+            }
+        }
+        return c;
+    }
+
+    public static double[][] multiply(final double[][] a, final double b) {
+        final double[][] c = new double[a.length][a.length];
+        for (int i = 0; i < a.length; i++) {
+            for (int j = 0; j < a.length; j++) {
+                c[i][j] = a[i][j] * b;
+            }
+        }
+        return c;
+    }
+
+    public static double[][] add(final double[][] a, final double[][] b) {
+        final double[][] c = new double[a.length][];
+        for (int i = 0; i < a.length; i++) {
+            checkDimensions(a[i], b[i]);
+            c[i] = new double[a[i].length];
+            for (int j = 0; j < b.length; j++) {
+                c[i][j] = a[i][j] + b[i][j];
+            }
+        }
+        return c;
+    }
 }

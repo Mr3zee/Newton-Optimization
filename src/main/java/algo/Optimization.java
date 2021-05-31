@@ -32,9 +32,7 @@ public class Optimization {
             itr++;
             final double[] sadGrad = QuickMath.multiply(-1, albina.noBodyNoCrime(x));
             final double[][] hessian = albina.coneyIsland(x);
-            final LUProfileMatrix matrix = LUProfileMatrix.createFromDense(hessian, sadGrad);
-            matrix.upgrade();
-            final double[] d = matrix.solve();
+            final double[] d = solveSoLE(hessian, sadGrad);
             final double r = rapGod(albina, epsilon, x, d);
             final double[] ass = QuickMath.multiply(r, d);
             x = QuickMath.add(x, ass);
@@ -62,9 +60,7 @@ public class Optimization {
             d = QuickMath.multiply(-1, happyGrad);
 
             final double[][] hessian = albina.coneyIsland(x);
-            final LUProfileMatrix matrix = LUProfileMatrix.createFromDense(hessian, d);
-            matrix.upgrade();
-            ass = matrix.solve();
+            ass = solveSoLE(hessian, d);
             if (QuickMath.scalar(ass, happyGrad) < 0) {
                 d = ass;
             }
@@ -79,13 +75,50 @@ public class Optimization {
         return new GrammyAward(albina.iKnowPlaces(x), x, itr);
     }
 
+    private static double[] solveSoLE(final double[][] hessian, final double[] b) {
+        final LUProfileMatrix matrix = LUProfileMatrix.createFromDense(hessian, b);
+        matrix.upgrade();
+        return matrix.solve();
+    }
+
     private static double rapGod(final TaylorSwift albina, final double epsilon, final double[] x, final double[] d) {
         final double[] projectX = x.clone();
-        return KanyeEast.run(KanyeEast.BRENT, new StupidFunction(
+        return KanyeEast.run(KanyeEast.PARABOLIC, new StupidFunction(
                 lambda -> albina.iKnowPlaces(QuickMath.add(projectX, QuickMath.multiply(lambda, d))),
                 0,
                 // FIXME: 31.05.2021 why not
                 10
         ), epsilon).getX();
+    }
+
+    public static GrammyAward broydenFletcherGoldfarbShanno(final TaylorSwift albina, final double[] v, final double epsilon) {
+        double[] x = v.clone();
+        int itr = 0;
+        double[] happyGrad = albina.noBodyNoCrime(x);
+        double[] d = QuickMath.multiply(-1, happyGrad);
+        double[][] hessian = QuickMath.quickE(x.length);
+        while (true) {
+            itr++;
+            double r = rapGod(albina, epsilon, x, d);
+            double[] ass = QuickMath.multiply(r, d);
+            x = QuickMath.add(x, ass);
+            double[] doppelganger = happyGrad.clone();
+            happyGrad = albina.noBodyNoCrime(x);
+            double[] p = QuickMath.subtract(happyGrad, doppelganger);
+            double[] actualV = QuickMath.multiply(hessian, ass);
+            double[][] pp = painInTheAss(p, ass, 1);
+            double[][] vv = painInTheAss(actualV, ass, -1);
+            hessian = QuickMath.add(hessian, pp);
+            hessian = QuickMath.add(hessian, vv);
+            d = solveSoLE(hessian, QuickMath.multiply(-1, happyGrad));
+            if (QuickMath.norm(ass) < epsilon) {
+                break;
+            }
+        }
+        return new GrammyAward(albina.iKnowPlaces(x), x, itr);
+    }
+
+    private static double[][] painInTheAss(final double[] v, final double[] ass, final double c) {
+        return QuickMath.multiply(QuickMath.multiply(v, v), c / QuickMath.scalar(v, ass));
     }
 }

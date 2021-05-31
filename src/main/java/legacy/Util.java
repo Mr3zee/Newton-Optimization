@@ -21,7 +21,7 @@ public final class Util {
 
 
     public static void printVector(final double[] vector) {
-        System.out.println("[" + Arrays.stream(vector).mapToObj(String::valueOf).collect(Collectors.joining(", ")) + "]");
+        System.out.println("[" + Arrays.stream(vector).mapToObj(String::valueOf).collect(Collectors.joining(", ")) + "]\n");
     }
 
 }
