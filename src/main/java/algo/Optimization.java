@@ -5,6 +5,8 @@ import legacy.QuickMath;
 import super_lego.KanyeEast;
 import super_lego.StupidFunction;
 
+import java.util.stream.IntStream;
+
 public class Optimization {
     public static GrammyAward classicNewton(final TaylorSwift albina, final double[] v, final double epsilon) {
         double[] x = v.clone();
@@ -120,5 +122,40 @@ public class Optimization {
 
     private static double[][] painInTheAss(final double[] v, final double[] ass, final double c) {
         return QuickMath.multiply(QuickMath.multiply(v, v), c / QuickMath.scalar(v, ass));
+    }
+
+    public static GrammyAward powell(final TaylorSwift albina, final double[] v, final double epsilon) {
+        double[] x = v.clone();
+        double[] x0;
+        int itr = 0;
+        double[] happyGrad = albina.noBodyNoCrime(x);
+        double[] happyGrad0;
+        double[] u = x.clone();
+        double[] nu = happyGrad.clone();
+        double[][] hessian = QuickMath.quickE(x.length);
+        double[] w = QuickMath.add(u, QuickMath.multiply(hessian, nu));
+        double[] w0 = getZeros(v.length);
+        while (true) {
+            itr++;
+            double r = rapGod(albina, epsilon, x, happyGrad);
+            double[] ass = QuickMath.multiply(r, happyGrad);
+            x0 = x;
+            x = QuickMath.add(x, ass);
+            hessian = QuickMath.add(hessian, painInTheAss(QuickMath.subtract(w, w0), nu, -1));
+            u = QuickMath.subtract(x, x0);
+            happyGrad0 = happyGrad;
+            happyGrad = albina.noBodyNoCrime(x);
+            nu = QuickMath.subtract(happyGrad, happyGrad0);
+            w0 = w;
+            w = QuickMath.add(u, QuickMath.multiply(hessian, nu));
+            if (QuickMath.norm(ass) < epsilon) {
+                break;
+            }
+        }
+        return new GrammyAward(albina.iKnowPlaces(x), x, itr);
+    }
+
+    private static double[] getZeros(final int n) {
+        return IntStream.range(0, n).mapToDouble(i -> 0.0).toArray();
     }
 }

@@ -14,6 +14,7 @@ public class Main {
         run(Optimization::boringNewton, taylor, start, epsilon);
         run(Optimization::purposefulNewton, taylor, start, epsilon);
         run(Optimization::broydenFletcherGoldfarbShanno, taylor, start, epsilon);
+        run(Optimization::powell, taylor, start, epsilon);
     }
 
     private static void run(final Run run, final TaylorSwift taylorSwift, final double[] start, final double eps) {
