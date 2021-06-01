@@ -35,6 +35,7 @@ public class Optimization {
             x = QuickMath.add(x, ass);
 
             complexity.addComplexity(3, 1, 0);
+            complexity.addCalls(0, 1, 1);
             if (QuickMath.norm(ass) < epsilon) {
                 break;
             }
@@ -53,6 +54,7 @@ public class Optimization {
             x = QuickMath.add(x, ass);
 
             complexity.addComplexity(4, 1, 1);
+            complexity.addCalls(0,1, 1);
             if (QuickMath.norm(ass) < epsilon) {
                 break;
             }
@@ -64,6 +66,8 @@ public class Optimization {
         double[] happyGrad = albina.noBodyNoCrime(x);
         double[] d = QuickMath.multiply(-1, happyGrad);
 
+        complexity.addLinearComplexity(2);
+        complexity.gradCallsInc();
         while (true) {
             complexity.incItr();
             double r = oneDimensionalOptimization(albina, epsilon, x, d, complexity);
@@ -82,7 +86,8 @@ public class Optimization {
             ass = QuickMath.multiply(r, d);
             x = QuickMath.add(x, ass);
 
-            complexity.addComplexity(9, 1, 1);
+            complexity.addComplexity(7, 1, 1);
+            complexity.addCalls(0, 1, 1);
             if (QuickMath.norm(ass) < epsilon) {
                 break;
             }
@@ -112,6 +117,7 @@ public class Optimization {
         ), epsilon);
         complexity.addInnerItr(north.getItr());
         complexity.addLinearComplexity(north.getItr() + 2);
+        complexity.addCalls(north.getItr(), 0, 0);
         return north.getX();
     }
 
@@ -119,6 +125,9 @@ public class Optimization {
         double[] happyGrad = albina.noBodyNoCrime(x);
         double[] d = QuickMath.multiply(-1, happyGrad);
         double[][] hessian = QuickMath.quickE(x.length);
+
+        complexity.addCalls(0, 1, 0);
+        complexity.addComplexity(2, 1, 0);
         while (true) {
             complexity.incItr();
             double r = oneDimensionalOptimization(albina, epsilon, x, d, complexity);
@@ -134,7 +143,8 @@ public class Optimization {
             hessian = QuickMath.add(hessian, vv);
             d = solveSoLE(hessian, QuickMath.multiply(-1, happyGrad));
 
-            complexity.addComplexity(12, 4, 1);
+            complexity.addComplexity(10, 1, 1);
+            complexity.addCalls(0, 1, 0);
             if (QuickMath.norm(ass) < epsilon) {
                 break;
             }
@@ -155,6 +165,9 @@ public class Optimization {
         double[] w = QuickMath.add(u, QuickMath.multiply(hessian, nu));
         double[] w0 = QuickMath.getZeros(x.length);
         double[] x0;
+
+        complexity.addComplexity(2, 1, 0);
+        complexity.addCalls(0, 1, 0);
         while (true) {
             complexity.incItr();
             double r = oneDimensionalOptimization(albina, epsilon, x, happyGrad, complexity);
@@ -169,7 +182,8 @@ public class Optimization {
             w0 = w;
             w = QuickMath.add(u, QuickMath.multiply(hessian, nu));
 
-            complexity.addComplexity(13, 3, 0);
+            complexity.addComplexity(11, 2, 0);
+            complexity.addCalls(0, 1, 0);
             if (QuickMath.norm(ass) < epsilon) {
                 break;
             }
@@ -184,6 +198,9 @@ public class Optimization {
         double fx = albina.iKnowPlaces(x);
         double[] happyGrad = albina.noBodyNoCrime(x);
         double[][] hessian = albina.coneyIsland(x);
+
+        complexity.addCalls(1, 1, 1);
+        complexity.addComplexity(1, 1, 0);
         while (true) {
             complexity.incItr();
             double[] ass = solveSoLE(
@@ -192,7 +209,9 @@ public class Optimization {
             );
             double[] y = QuickMath.add(x, ass);
             double fy = albina.iKnowPlaces(y);
-            complexity.addComplexity(6, 1, 1);
+
+            complexity.fCallsInc();
+            complexity.addComplexity(5, 2, 1);
             if (fy >= fx) {
                 alpha /= beta;
             } else {
@@ -208,6 +227,7 @@ public class Optimization {
                 hessian = albina.coneyIsland(x);
                 alpha = alpha0;
 
+                complexity.addCalls(0, 1, 1);
                 complexity.addComplexity(1, 1, 0);
             }
         }
@@ -220,6 +240,9 @@ public class Optimization {
         final double beta = 0.5;
         double[] happyGrad = albina.noBodyNoCrime(x);
         double[][] hessian = albina.coneyIsland(x);
+
+        complexity.addComplexity(1, 1, 0);
+        complexity.addCalls(0, 1, 1);
         while (true) {
             complexity.incItr();
             final double[][] superHessian = QuickMath.add(hessian, QuickMath.multiply(QuickMath.quickE(x.length), alpha));
@@ -227,7 +250,8 @@ public class Optimization {
                     superHessian,
                     QuickMath.multiply(-1, happyGrad)
             );
-            complexity.addComplexity(6, 1, 1);
+
+            complexity.addComplexity(5, 2, 1);
             if (!choleskyDecompositionAvailable(superHessian)) {
                 alpha = Math.max(alpha * 2, 1);
             } else {
@@ -242,6 +266,7 @@ public class Optimization {
                 hessian = albina.coneyIsland(x);
                 alpha = alpha0;
 
+                complexity.addCalls(0, 1, 1);
                 complexity.addComplexity(1, 1, 0);
             }
         }
@@ -255,7 +280,7 @@ public class Optimization {
             for (int p = 0; p < k; p++) {
                 matrix[k][k] -= matrix[k][p] * matrix[k][p];
             }
-            if (matrix[k][k] <= 0.0 ) {
+            if (matrix[k][k] <= 0.0) {
                 return false;
             }
             matrix[k][k] = Math.sqrt(matrix[k][k]);

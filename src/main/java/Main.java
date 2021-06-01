@@ -35,11 +35,23 @@ public class Main {
         System.out.print("x vector: ");
         printVector(award.x());
         System.out.format(
-                "y min: %s%nitr: %s%ninnerItr: %s%ncomplexity: %s%n%n",
+                """
+                y min: %s
+                itr: %s
+                innerItr: %s
+                complexity: %s
+                function calls: %s
+                gradient calls: %s
+                hessian calls: %s
+                %n
+                """,
                 award.y(),
                 award.complexity().getItr(),
                 award.complexity().getInnerItr(),
-                award.complexity().getComplexity()
+                award.complexity().getComplexity(),
+                award.complexity().getFCalls(),
+                award.complexity().getGradCalls(),
+                award.complexity().getHessianCalls()
         );
     }
 }
