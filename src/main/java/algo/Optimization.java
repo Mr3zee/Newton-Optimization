@@ -5,12 +5,33 @@ import legacy.QuickMath;
 import super_lego.KanyeEast;
 import super_lego.StupidFunction;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class Optimization {
-    public static GrammyAward classicNewton(final TaylorSwift albina, final double[] v, final double epsilon) {
-        double[] x = v.clone();
-        int itr = 0;
+
+    @FunctionalInterface
+    private interface Slave {
+        double[] doAllTheWork(
+                final TaylorSwift albina,
+                final double[] start,
+                final double epsilon,
+                final AtomicInteger itr,
+                final AtomicInteger innerIrt
+        );
+    }
+
+    private static AWayToSuccess unwrapAlgo(final Slave slave) {
+        return (albina, start, epsilon) -> {
+            final AtomicInteger itr = new AtomicInteger();
+            final AtomicInteger innerItr = new AtomicInteger();
+            final double[] x = slave.doAllTheWork(albina, start, epsilon, itr, innerItr);
+            return new GrammyAward(albina.iKnowPlaces(x), x, itr.get(), innerItr.get());
+        };
+    }
+
+    public static final AWayToSuccess CLASSIC_NEWTON = unwrapAlgo((albina, x, epsilon, itr, innerItr) -> {
         while (true) {
-            itr++;
+            itr.incrementAndGet();
             final double[] sadGrad = QuickMath.multiply(-1, albina.noBodyNoCrime(x));
             final double[][] hessian = albina.coneyIsland(x);
             final LUProfileMatrix matrix = LUProfileMatrix.createFromDense(hessian, sadGrad);
@@ -21,15 +42,12 @@ public class Optimization {
                 break;
             }
         }
-        // TODO: 31.05.2021 add x and stuff
-        return new GrammyAward(albina.iKnowPlaces(x), x, itr);
-    }
+        return x;
+    });
 
-    public static GrammyAward boringNewton(final TaylorSwift albina, final double[] v, final double epsilon) {
-        double[] x = v.clone();
-        int itr = 0;
+    public static final AWayToSuccess BORING_NEWTON = unwrapAlgo((albina, x, epsilon, itr, innerItr) -> {
         while (true) {
-            itr++;
+            itr.incrementAndGet();
             final double[] sadGrad = QuickMath.multiply(-1, albina.noBodyNoCrime(x));
             final double[][] hessian = albina.coneyIsland(x);
             final double[] d = solveSoLE(hessian, sadGrad);
@@ -40,18 +58,15 @@ public class Optimization {
                 break;
             }
         }
-        // TODO: 31.05.2021 add x and stuff
-        return new GrammyAward(albina.iKnowPlaces(x), x, itr);
-    }
+        return x;
+    });
 
-    public static GrammyAward purposefulNewton(final TaylorSwift albina, final double[] v, final double epsilon) {
-        double[] x = v.clone();
-        int itr = 0;
+    public static final AWayToSuccess PURPOSEFUL_NEWTON = unwrapAlgo((albina, x, epsilon, itr, innerItr) -> {
         double[] happyGrad = albina.noBodyNoCrime(x);
         double[] d = QuickMath.multiply(-1, happyGrad);
 
         while (true) {
-            itr++;
+            itr.incrementAndGet();
             double r = rapGod(albina, epsilon, x, d);
             double[] ass = QuickMath.multiply(r, d);
 
@@ -71,9 +86,8 @@ public class Optimization {
                 break;
             }
         }
-        // TODO: 31.05.2021 add x and stuff
-        return new GrammyAward(albina.iKnowPlaces(x), x, itr);
-    }
+        return x;
+    });
 
     private static double[] solveSoLE(final double[][] hessian, final double[] b) {
         final LUProfileMatrix matrix = LUProfileMatrix.createFromDense(hessian, b);
@@ -91,14 +105,12 @@ public class Optimization {
         ), epsilon).getX();
     }
 
-    public static GrammyAward broydenFletcherGoldfarbShanno(final TaylorSwift albina, final double[] v, final double epsilon) {
-        double[] x = v.clone();
-        int itr = 0;
+    public static final AWayToSuccess BROYDEN_FLETCHER_GOLDFARB_SHANNO = unwrapAlgo((albina, x, epsilon, itr, innerItr) -> {
         double[] happyGrad = albina.noBodyNoCrime(x);
         double[] d = QuickMath.multiply(-1, happyGrad);
         double[][] hessian = QuickMath.quickE(x.length);
         while (true) {
-            itr++;
+            itr.incrementAndGet();
             double r = rapGod(albina, epsilon, x, d);
             double[] ass = QuickMath.multiply(r, d);
             x = QuickMath.add(x, ass);
@@ -115,26 +127,24 @@ public class Optimization {
                 break;
             }
         }
-        return new GrammyAward(albina.iKnowPlaces(x), x, itr);
-    }
+        return x;
+    });
 
     private static double[][] painInTheAss(final double[] v, final double[] ass, final double c) {
         return QuickMath.multiply(QuickMath.multiply(v, v), c / QuickMath.scalar(v, ass));
     }
 
-    public static GrammyAward powell(final TaylorSwift albina, final double[] v, final double epsilon) {
-        double[] x = v.clone();
-        double[] x0;
-        int itr = 0;
+    public static final AWayToSuccess POWELL = unwrapAlgo((albina, x, epsilon, itr, innerItr) -> {
         double[] happyGrad = albina.noBodyNoCrime(x);
         double[] happyGrad0;
         double[] u = x.clone();
         double[] nu = happyGrad.clone();
         double[][] hessian = QuickMath.quickE(x.length);
         double[] w = QuickMath.add(u, QuickMath.multiply(hessian, nu));
-        double[] w0 = QuickMath.getZeros(v.length);
+        double[] w0 = QuickMath.getZeros(x.length);
+        double[] x0;
         while (true) {
-            itr++;
+            itr.incrementAndGet();
             double r = rapGod(albina, epsilon, x, happyGrad);
             double[] ass = QuickMath.multiply(r, happyGrad);
             x0 = x;
@@ -150,12 +160,10 @@ public class Optimization {
                 break;
             }
         }
-        return new GrammyAward(albina.iKnowPlaces(x), x, itr);
-    }
+        return x;
+    });
 
-    public static GrammyAward marquardt(final TaylorSwift albina, final double[] v, final double epsilon) {
-        double[] x = v.clone();
-        int itr = 0;
+    public static final AWayToSuccess MARQUARDT = unwrapAlgo((albina, x, epsilon, itr, innerItr) -> {
         double alpha0 = 100;
         double alpha = 100;
         final double beta = 0.5;
@@ -163,9 +171,9 @@ public class Optimization {
         double[] happyGrad = albina.noBodyNoCrime(x);
         double[][] hessian = albina.coneyIsland(x);
         while (true) {
-            itr++;
+            itr.incrementAndGet();
             double[] ass = solveSoLE(
-                    QuickMath.add(hessian, QuickMath.multiply(QuickMath.quickE(v.length), alpha)),
+                    QuickMath.add(hessian, QuickMath.multiply(QuickMath.quickE(x.length), alpha)),
                     QuickMath.multiply(-1, happyGrad)
             );
             double[] y = QuickMath.add(x, ass);
@@ -184,25 +192,23 @@ public class Optimization {
                 alpha = alpha0;
             }
         }
-        return new GrammyAward(albina.iKnowPlaces(x), x, itr);
-    }
+        return x;
+    });
 
-    public static GrammyAward marquardtCholesky(final TaylorSwift albina, final double[] v, final double epsilon) {
-        double[] x = v.clone();
-        int itr = 0;
+    public static final AWayToSuccess MARQUARDT_CHOLESKY = unwrapAlgo((albina, x, epsilon, itr, innerItr) -> {
         double alpha0 = 100;
         double alpha = 100;
         final double beta = 0.5;
         double[] happyGrad = albina.noBodyNoCrime(x);
         double[][] hessian = albina.coneyIsland(x);
         while (true) {
-            itr++;
-            final double[][] jopa = QuickMath.add(hessian, QuickMath.multiply(QuickMath.quickE(v.length), alpha));
+            itr.incrementAndGet();
+            final double[][] superHessian = QuickMath.add(hessian, QuickMath.multiply(QuickMath.quickE(x.length), alpha));
             final double[] ass = solveSoLE(
-                    jopa,
+                    superHessian,
                     QuickMath.multiply(-1, happyGrad)
             );
-            if (!choleskyDecompositionAvailable(jopa)) {
+            if (!choleskyDecompositionAvailable(superHessian)) {
                 alpha = Math.max(alpha * 2, 1);
             } else {
                 x = QuickMath.add(x, ass);
@@ -215,8 +221,8 @@ public class Optimization {
                 alpha = alpha0;
             }
         }
-        return new GrammyAward(albina.iKnowPlaces(x), x, itr);
-    }
+        return x;
+    });
 
     private static boolean choleskyDecompositionAvailable(final double[][] matrix) {
         final int n = matrix.length;
