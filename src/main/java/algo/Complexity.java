@@ -51,6 +51,12 @@ public class Complexity {
         this.complexity += this.n * this.n * this.n * times;
     }
 
+    public void addComplexity(final int l, final int q, final int c) {
+        addLinearComplexity(l);
+        addQuadraticComplexity(q);
+        addCubicComplexity(c);
+    }
+
     public int getComplexity() {
         return complexity;
     }
