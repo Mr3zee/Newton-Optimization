@@ -34,6 +34,6 @@ public class Main {
         System.out.println("OK");
         System.out.print("x vector: ");
         printVector(award.x());
-        System.out.format("y min: %s%nitr: %s%n%n", award.y(), award.itr());
+        System.out.format("y min: %s%nitr: %s%n%n", award.y(), award.complexity().getItr());
     }
 }

@@ -1,3 +1,3 @@
 package algo;
 
-public record GrammyAward(double y, double[] x, int itr, int innerItr) { }
+public record GrammyAward(double y, double[] x, Complexity complexity) { }

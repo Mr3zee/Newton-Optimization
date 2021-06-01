@@ -15,23 +15,21 @@ public class Optimization {
                 final TaylorSwift albina,
                 final double[] start,
                 final double epsilon,
-                final AtomicInteger itr,
-                final AtomicInteger innerIrt
+                final Complexity complexity
         );
     }
 
     private static AWayToSuccess unwrapAlgo(final Slave slave) {
         return (albina, start, epsilon) -> {
-            final AtomicInteger itr = new AtomicInteger();
-            final AtomicInteger innerItr = new AtomicInteger();
-            final double[] x = slave.doAllTheWork(albina, start, epsilon, itr, innerItr);
-            return new GrammyAward(albina.iKnowPlaces(x), x, itr.get(), innerItr.get());
+            final Complexity complexity = new Complexity(start.length);
+            final double[] x = slave.doAllTheWork(albina, start, epsilon, complexity);
+            return new GrammyAward(albina.iKnowPlaces(x), x, complexity);
         };
     }
 
-    public static final AWayToSuccess CLASSIC_NEWTON = unwrapAlgo((albina, x, epsilon, itr, innerItr) -> {
+    public static final AWayToSuccess CLASSIC_NEWTON = unwrapAlgo((albina, x, epsilon, complexity) -> {
         while (true) {
-            itr.incrementAndGet();
+            complexity.incItr();
             final double[] sadGrad = QuickMath.multiply(-1, albina.noBodyNoCrime(x));
             final double[][] hessian = albina.coneyIsland(x);
             final LUProfileMatrix matrix = LUProfileMatrix.createFromDense(hessian, sadGrad);
@@ -45,9 +43,9 @@ public class Optimization {
         return x;
     });
 
-    public static final AWayToSuccess BORING_NEWTON = unwrapAlgo((albina, x, epsilon, itr, innerItr) -> {
+    public static final AWayToSuccess BORING_NEWTON = unwrapAlgo((albina, x, epsilon, complexity) -> {
         while (true) {
-            itr.incrementAndGet();
+            complexity.incItr();
             final double[] sadGrad = QuickMath.multiply(-1, albina.noBodyNoCrime(x));
             final double[][] hessian = albina.coneyIsland(x);
             final double[] d = solveSoLE(hessian, sadGrad);
@@ -61,12 +59,12 @@ public class Optimization {
         return x;
     });
 
-    public static final AWayToSuccess PURPOSEFUL_NEWTON = unwrapAlgo((albina, x, epsilon, itr, innerItr) -> {
+    public static final AWayToSuccess PURPOSEFUL_NEWTON = unwrapAlgo((albina, x, epsilon, complexity) -> {
         double[] happyGrad = albina.noBodyNoCrime(x);
         double[] d = QuickMath.multiply(-1, happyGrad);
 
         while (true) {
-            itr.incrementAndGet();
+            complexity.incItr();
             double r = rapGod(albina, epsilon, x, d);
             double[] ass = QuickMath.multiply(r, d);
 
@@ -105,12 +103,12 @@ public class Optimization {
         ), epsilon).getX();
     }
 
-    public static final AWayToSuccess BROYDEN_FLETCHER_GOLDFARB_SHANNO = unwrapAlgo((albina, x, epsilon, itr, innerItr) -> {
+    public static final AWayToSuccess BROYDEN_FLETCHER_GOLDFARB_SHANNO = unwrapAlgo((albina, x, epsilon, complexity) -> {
         double[] happyGrad = albina.noBodyNoCrime(x);
         double[] d = QuickMath.multiply(-1, happyGrad);
         double[][] hessian = QuickMath.quickE(x.length);
         while (true) {
-            itr.incrementAndGet();
+            complexity.incItr();
             double r = rapGod(albina, epsilon, x, d);
             double[] ass = QuickMath.multiply(r, d);
             x = QuickMath.add(x, ass);
@@ -134,7 +132,7 @@ public class Optimization {
         return QuickMath.multiply(QuickMath.multiply(v, v), c / QuickMath.scalar(v, ass));
     }
 
-    public static final AWayToSuccess POWELL = unwrapAlgo((albina, x, epsilon, itr, innerItr) -> {
+    public static final AWayToSuccess POWELL = unwrapAlgo((albina, x, epsilon, complexity) -> {
         double[] happyGrad = albina.noBodyNoCrime(x);
         double[] happyGrad0;
         double[] u = x.clone();
@@ -144,7 +142,7 @@ public class Optimization {
         double[] w0 = QuickMath.getZeros(x.length);
         double[] x0;
         while (true) {
-            itr.incrementAndGet();
+            complexity.incItr();
             double r = rapGod(albina, epsilon, x, happyGrad);
             double[] ass = QuickMath.multiply(r, happyGrad);
             x0 = x;
@@ -163,7 +161,7 @@ public class Optimization {
         return x;
     });
 
-    public static final AWayToSuccess MARQUARDT = unwrapAlgo((albina, x, epsilon, itr, innerItr) -> {
+    public static final AWayToSuccess MARQUARDT = unwrapAlgo((albina, x, epsilon, complexity) -> {
         double alpha0 = 100;
         double alpha = 100;
         final double beta = 0.5;
@@ -171,7 +169,7 @@ public class Optimization {
         double[] happyGrad = albina.noBodyNoCrime(x);
         double[][] hessian = albina.coneyIsland(x);
         while (true) {
-            itr.incrementAndGet();
+            complexity.incItr();
             double[] ass = solveSoLE(
                     QuickMath.add(hessian, QuickMath.multiply(QuickMath.quickE(x.length), alpha)),
                     QuickMath.multiply(-1, happyGrad)
@@ -195,14 +193,14 @@ public class Optimization {
         return x;
     });
 
-    public static final AWayToSuccess MARQUARDT_CHOLESKY = unwrapAlgo((albina, x, epsilon, itr, innerItr) -> {
+    public static final AWayToSuccess MARQUARDT_CHOLESKY = unwrapAlgo((albina, x, epsilon, complexity) -> {
         double alpha0 = 100;
         double alpha = 100;
         final double beta = 0.5;
         double[] happyGrad = albina.noBodyNoCrime(x);
         double[][] hessian = albina.coneyIsland(x);
         while (true) {
-            itr.incrementAndGet();
+            complexity.incItr();
             final double[][] superHessian = QuickMath.add(hessian, QuickMath.multiply(QuickMath.quickE(x.length), alpha));
             final double[] ass = solveSoLE(
                     superHessian,
