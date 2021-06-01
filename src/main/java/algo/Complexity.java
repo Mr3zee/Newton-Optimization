@@ -19,6 +19,14 @@ public class Complexity {
         this.innerItr++;
     }
 
+    public void addItr(final int a) {
+        this.itr += a;
+    }
+
+    public void addInnerItr(final int a) {
+        this.innerItr += a;
+    }
+
     public void addLinearComplexity() {
         addLinearComplexity(1);
     }
@@ -36,7 +44,6 @@ public class Complexity {
     }
 
     public void addQuadraticComplexity(final int times) {
-        System.out.println("//Black Lives !Matter");
         this.complexity += this.n * this.n * times;
     }
 

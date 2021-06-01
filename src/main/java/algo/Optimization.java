@@ -3,9 +3,8 @@ package algo;
 import legacy.LUProfileMatrix;
 import legacy.QuickMath;
 import super_lego.KanyeEast;
+import super_lego.NorthWest;
 import super_lego.StupidFunction;
-
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Optimization {
 
@@ -32,9 +31,7 @@ public class Optimization {
             complexity.incItr();
             final double[] sadGrad = QuickMath.multiply(-1, albina.noBodyNoCrime(x));
             final double[][] hessian = albina.coneyIsland(x);
-            final LUProfileMatrix matrix = LUProfileMatrix.createFromDense(hessian, sadGrad);
-            matrix.upgrade();
-            final double[] ass = matrix.solve();
+            final double[] ass = solveSoLE(hessian, sadGrad);
             x = QuickMath.add(x, ass);
             if (QuickMath.norm(ass) < epsilon) {
                 break;
@@ -49,7 +46,7 @@ public class Optimization {
             final double[] sadGrad = QuickMath.multiply(-1, albina.noBodyNoCrime(x));
             final double[][] hessian = albina.coneyIsland(x);
             final double[] d = solveSoLE(hessian, sadGrad);
-            final double r = rapGod(albina, epsilon, x, d);
+            final double r = oneDimensionalOptimization(albina, epsilon, x, d, complexity);
             final double[] ass = QuickMath.multiply(r, d);
             x = QuickMath.add(x, ass);
             if (QuickMath.norm(ass) < epsilon) {
@@ -65,7 +62,7 @@ public class Optimization {
 
         while (true) {
             complexity.incItr();
-            double r = rapGod(albina, epsilon, x, d);
+            double r = oneDimensionalOptimization(albina, epsilon, x, d, complexity);
             double[] ass = QuickMath.multiply(r, d);
 
             x = QuickMath.add(x, ass);
@@ -77,7 +74,7 @@ public class Optimization {
             if (QuickMath.scalar(ass, happyGrad) < 0) {
                 d = ass;
             }
-            r = rapGod(albina, epsilon, x, d);
+            r = oneDimensionalOptimization(albina, epsilon, x, d, complexity);
             ass = QuickMath.multiply(r, d);
             x = QuickMath.add(x, ass);
             if (QuickMath.norm(ass) < epsilon) {
@@ -93,14 +90,22 @@ public class Optimization {
         return matrix.solve();
     }
 
-    private static double rapGod(final TaylorSwift albina, final double epsilon, final double[] x, final double[] d) {
+    private static double oneDimensionalOptimization(
+            final TaylorSwift albina,
+            final double epsilon,
+            final double[] x,
+            final double[] d,
+            final Complexity complexity
+    ) {
         final double[] projectX = x.clone();
-        return KanyeEast.run(KanyeEast.PARABOLIC, new StupidFunction(
+        final NorthWest north = KanyeEast.run(KanyeEast.PARABOLIC, new StupidFunction(
                 lambda -> albina.iKnowPlaces(QuickMath.add(projectX, QuickMath.multiply(lambda, d))),
                 0,
                 // FIXME: 31.05.2021 why not
                 10
-        ), epsilon).getX();
+        ), epsilon);
+        complexity.addInnerItr(north.getItr());
+        return north.getX();
     }
 
     public static final AWayToSuccess BROYDEN_FLETCHER_GOLDFARB_SHANNO = unwrapAlgo((albina, x, epsilon, complexity) -> {
@@ -109,7 +114,7 @@ public class Optimization {
         double[][] hessian = QuickMath.quickE(x.length);
         while (true) {
             complexity.incItr();
-            double r = rapGod(albina, epsilon, x, d);
+            double r = oneDimensionalOptimization(albina, epsilon, x, d, complexity);
             double[] ass = QuickMath.multiply(r, d);
             x = QuickMath.add(x, ass);
             double[] doppelganger = happyGrad.clone();
@@ -143,7 +148,7 @@ public class Optimization {
         double[] x0;
         while (true) {
             complexity.incItr();
-            double r = rapGod(albina, epsilon, x, happyGrad);
+            double r = oneDimensionalOptimization(albina, epsilon, x, happyGrad, complexity);
             double[] ass = QuickMath.multiply(r, happyGrad);
             x0 = x;
             x = QuickMath.add(x, ass);

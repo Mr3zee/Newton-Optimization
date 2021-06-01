@@ -3,22 +3,12 @@ package super_lego;
 public class NorthWest {
     private final String name;
     private Double result = null;
-    private final double leftBound;
-    private final double rightBound;
     private double x;
+    private int itr;
 
-    NorthWest(final String name, final double leftBound, final double rightBound) {
+    NorthWest(final String name) {
         this.name = name;
-        this.leftBound = leftBound;
-        this.rightBound = rightBound;
-    }
-
-    public double getLeftBound() {
-        return leftBound;
-    }
-
-    public double getRightBound() {
-        return rightBound;
+        this.itr = 0;
     }
 
     public void setResult(final Double result) {
@@ -39,5 +29,13 @@ public class NorthWest {
 
     public void setX(double x) {
         this.x = x;
+    }
+
+    public void setItr(int itr) {
+        this.itr = itr;
+    }
+
+    public int getItr() {
+        return itr;
     }
 }

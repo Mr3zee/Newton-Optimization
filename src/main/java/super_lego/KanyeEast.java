@@ -1,6 +1,7 @@
 package super_lego;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -10,8 +11,10 @@ public class KanyeEast {
         return new Algorithm((somethingStupid, epsilon) -> {
             final double left = somethingStupid.getLeft();
             final double right = somethingStupid.getRight();
-            final NorthWest result = new NorthWest(name, left, right);
-            final double x = algo.apply(somethingStupid::doSomethingStupid, left, right, epsilon);
+            final NorthWest result = new NorthWest(name);
+            final AtomicInteger itr = new AtomicInteger();
+            final double x = algo.apply(somethingStupid::doSomethingStupid, left, right, epsilon, itr);
+            result.setItr(itr.get());
             result.setX(x);
             result.setResult(somethingStupid.doSomethingStupid(x));
             return result;
@@ -22,12 +25,14 @@ public class KanyeEast {
         return algorithm.f.apply(variant, epsilon);
     }
 
-    public static final Algorithm DICHOTOMY = unwrapAlgo("DICHOTOMY", (f, left, right, epsilon) -> {
+    public static final Algorithm DICHOTOMY = unwrapAlgo("DICHOTOMY", (f, left, right, epsilon, itr) -> {
         double x;
         do {
             x = getMiddle(left, right);
             final double f1 = f.apply(x - epsilon / 2);
+            itr.incrementAndGet();
             final double f2 = f.apply(x + epsilon / 2);
+            itr.incrementAndGet();
             if (f1 < f2) {
                 right = x;
             } else {
@@ -47,7 +52,7 @@ public class KanyeEast {
 
     private static final double REVERSED_GOLDEN_CONST = (Math.sqrt(5) - 1) / 2;
 
-    public static final Algorithm GOLDEN_SECTION = unwrapAlgo("GOLDEN_SECTION", (f, left, right, epsilon) -> {
+    public static final Algorithm GOLDEN_SECTION = unwrapAlgo("GOLDEN_SECTION", (f, left, right, epsilon, itr) -> {
         double delta = (right - left) * REVERSED_GOLDEN_CONST;
 
         double x2 = left + delta;
@@ -57,6 +62,7 @@ public class KanyeEast {
         double f1 = f.apply(x1);
 
         do {
+            itr.incrementAndGet();
             delta = REVERSED_GOLDEN_CONST * delta;
             if (f1 >= f2) {
                 left = x1; x1 = x2; x2 = left + delta;
@@ -71,9 +77,10 @@ public class KanyeEast {
 
     private static final List<Double> FIBONACCI_NUMBERS = getNFibonacci();
 
-    public static final Algorithm FIBONACCI = unwrapAlgo("FIBONACCI", (f, left, right, epsilon) -> {
+    public static final Algorithm FIBONACCI = unwrapAlgo("FIBONACCI", (f, left, right, epsilon, itr) -> {
         final int n = calculateFibonacciConst(left, right, epsilon);
         int k = 0;
+
         double lambda = getFibonacciVar(left, right, n, k + 2, k);
         double mu = getFibonacciVar(left, right, n, k + 1, k);
         double f_mu = f.apply(mu), f_lambda = f.apply(lambda);
@@ -81,6 +88,7 @@ public class KanyeEast {
         double an, bn;
         while (true) {
             k++;
+            itr.incrementAndGet();
             if (k == n - 2) {
                 mu = lambda + epsilon;
                 if (f_mu >= f_lambda) {
@@ -110,7 +118,10 @@ public class KanyeEast {
     });
 
     private static int calculateFibonacciConst(final double left, final double right, final double epsilon) {
-        return Math.min(1475, Math.abs(Collections.binarySearch(FIBONACCI_NUMBERS, (right - left) / epsilon)) + 1);
+        return Math.min(
+                FIB_MAX_INDEX - 1,
+                Math.abs(Collections.binarySearch(FIBONACCI_NUMBERS, (right - left) / epsilon)) + 1
+        );
     }
 
 
@@ -118,20 +129,23 @@ public class KanyeEast {
         return a + FIBONACCI_NUMBERS.get(n - i) / FIBONACCI_NUMBERS.get(n - j) * (b - a);
     }
 
+    private static final int FIB_MAX_INDEX = 1476;
+
     private static List<Double> getNFibonacci() {
-        final List<Double> arr = new ArrayList<>(1476);
+        final List<Double> arr = new ArrayList<>(FIB_MAX_INDEX);
         arr.add(1.0);
         arr.add(1.0);
-        for (int i = 2; i < 1476; i++) {
+        for (int i = 2; i < FIB_MAX_INDEX; i++) {
             arr.add(arr.get(i - 1) + arr.get(i - 2));
         }
         return arr;
     }
 
-    public static final Algorithm PARABOLIC = unwrapAlgo("PARABOLIC", (f, a, c, epsilon) -> {
+    public static final Algorithm PARABOLIC = unwrapAlgo("PARABOLIC", (f, a, c, epsilon, itr) -> {
         double b = getMiddle(a, c), x;
         double fa = f.apply(a), fb = f.apply(b), fc = f.apply(c);
         while (checkBounds(a, c, epsilon)) {
+            itr.incrementAndGet();
             x = parabolicMinimum(a, b, c, fa, fb, fc);
             double fx = f.apply(x);
             if (fx < fb) {
@@ -169,12 +183,13 @@ public class KanyeEast {
                 / ((fa - fb) * (c - b) + (fc - fb) * (b - a));
     }
 
-    public static final Algorithm BRENT = unwrapAlgo("BRENT", (f, a, c, epsilon) -> {
+    public static final Algorithm BRENT = unwrapAlgo("BRENT", (f, a, c, epsilon, itr) -> {
         double x, w, v, d, e, g, u, fx, fw, fv;
         x = w = v = a + REVERSED_GOLDEN_CONST * (c - a);
         fx = fw = fv = f.apply(x);
         d = e = c - a;
         while (checkBounds(a, c, epsilon)) {
+            itr.incrementAndGet();
             g = e;
             e = d;
             if (different(w, x, v) && different(fw, fx, fv)
@@ -238,8 +253,8 @@ public class KanyeEast {
     }
 
     @FunctionalInterface
-    interface QuinaryFunction<A, B, C, D, R> {
-        R apply(A a, B b, C c, D d);
+    interface QuinaryFunction<A, B, C, D, E, R> {
+        R apply(A a, B b, C c, D d, E e);
     }
 
     private interface OptimizationAlgorithm extends QuinaryFunction<
@@ -247,6 +262,7 @@ public class KanyeEast {
             Double,
             Double,
             Double,
+            AtomicInteger,
             Double
             > { }
 
