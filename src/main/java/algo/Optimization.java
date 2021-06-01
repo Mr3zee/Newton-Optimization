@@ -186,4 +186,58 @@ public class Optimization {
         }
         return new GrammyAward(albina.iKnowPlaces(x), x, itr);
     }
+
+    public static GrammyAward marquardtCholesky(final TaylorSwift albina, final double[] v, final double epsilon) {
+        double[] x = v.clone();
+        int itr = 0;
+        double alpha0 = 100;
+        double alpha = 100;
+        final double beta = 0.5;
+        double[] happyGrad = albina.noBodyNoCrime(x);
+        double[][] hessian = albina.coneyIsland(x);
+        while (true) {
+            itr++;
+            final double[][] jopa = QuickMath.add(hessian, QuickMath.multiply(QuickMath.quickE(v.length), alpha));
+            final double[] ass = solveSoLE(
+                    jopa,
+                    QuickMath.multiply(-1, happyGrad)
+            );
+            if (!choleskyDecompositionAvailable(jopa)) {
+                alpha = Math.max(alpha * 2, 1);
+            } else {
+                x = QuickMath.add(x, ass);
+                alpha0 *= beta;
+                if (QuickMath.norm(ass) < epsilon) {
+                    break;
+                }
+                happyGrad = albina.noBodyNoCrime(x);
+                hessian = albina.coneyIsland(x);
+                alpha = alpha0;
+            }
+        }
+        return new GrammyAward(albina.iKnowPlaces(x), x, itr);
+    }
+
+    private static boolean choleskyDecompositionAvailable(final double[][] matrix) {
+        final int n = matrix.length;
+
+        for (int k = 0; k < n; k++) {
+            for (int p = 0; p < k; p++) {
+                matrix[k][k] -= matrix[k][p] * matrix[k][p];
+            }
+            if (matrix[k][k] <= 0.0 ) {
+                return false;
+            }
+            matrix[k][k] = Math.sqrt(matrix[k][k]);
+            final double reciprocal = 1.0 / matrix[k][k];
+            for (int i = k + 1; i < n; i++) {
+                for (int p = 0; p < k; p++) {
+                    matrix[i][k] -= matrix[i][p] * matrix[k][p];
+                }
+                matrix[i][k] *= reciprocal;
+                matrix[k][i] *= matrix[i][k];
+            }
+        }
+        return true;
+    }
 }
