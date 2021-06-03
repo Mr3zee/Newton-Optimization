@@ -27,7 +27,7 @@ public class FolkloreEra implements TaylorSwift {
     public double[][] coneyIsland(double[] v) {
         return new double[][] {
                 {
-                    2 * (60 * Math.pow(v[0] - v[4], 2) + 1),
+                    2 * (60 * Math.pow(v[0] - v[3], 2) + 1),
                     20,
                     0,
                     -120 * Math.pow(v[0] - v[3], 2)
