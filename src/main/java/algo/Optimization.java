@@ -6,6 +6,8 @@ import super_lego.KanyeEast;
 import super_lego.NorthWest;
 import super_lego.StupidFunction;
 
+import java.util.Arrays;
+
 public class Optimization {
 
     @FunctionalInterface
@@ -159,28 +161,22 @@ public class Optimization {
     public static final AWayToSuccess POWELL = unwrapAlgo((albina, x, epsilon, complexity) -> {
         double[] happyGrad = albina.noBodyNoCrime(x);
         double[] happyGrad0;
-        double[] u = x.clone();
-        double[] nu = happyGrad.clone();
         double[][] hessian = QuickMath.quickE(x.length);
-        double[] w = QuickMath.add(u, QuickMath.multiply(hessian, nu));
-        double[] w0 = QuickMath.getZeros(x.length);
-        double[] x0;
+        double[] d = QuickMath.multiply(-1, happyGrad);
 
         complexity.addComplexity(2, 1, 0);
         complexity.addCalls(0, 1, 0);
         while (true) {
             complexity.incItr();
-            double r = oneDimensionalOptimization(albina, epsilon, x, happyGrad, complexity);
-            double[] ass = QuickMath.multiply(r, happyGrad);
-            x0 = x;
+            double r = oneDimensionalOptimization(albina, epsilon, x, d, complexity);
+            double[] ass = QuickMath.multiply(r, d);
             x = QuickMath.add(x, ass);
-            hessian = QuickMath.add(hessian, painInTheAss(QuickMath.subtract(w, w0), nu, -1));
-            u = QuickMath.subtract(x, x0);
-            happyGrad0 = happyGrad;
+            happyGrad0 = happyGrad.clone();
             happyGrad = albina.noBodyNoCrime(x);
-            nu = QuickMath.subtract(happyGrad, happyGrad0);
-            w0 = w;
-            w = QuickMath.add(u, QuickMath.multiply(hessian, nu));
+            double[] p = QuickMath.subtract(happyGrad, happyGrad0);
+            double[] u = QuickMath.subtract(ass, QuickMath.multiply(hessian, p));
+            hessian = QuickMath.add(hessian, painInTheAss(u, p, 1));
+            d = QuickMath.multiply(-1, QuickMath.multiply(hessian, happyGrad));
 
             complexity.addComplexity(11, 2, 0);
             complexity.addCalls(0, 1, 0);
