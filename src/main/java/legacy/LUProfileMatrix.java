@@ -242,6 +242,7 @@ public final class LUProfileMatrix implements SuperDuperMatrix, Cloneable {
             }
             if (QuickMath.isZero(get(p_k, k))) {
                 status = 1;
+                isLU = true;
                 return;
             }
             for (int i = k + 1, p_row = p_k + 1; i < n; p_row++, i++) {

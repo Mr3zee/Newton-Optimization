@@ -34,21 +34,21 @@ public class FolkloreEra implements TaylorSwift {
                 },
                 {
                     20,
-                    4 * (50 + 3 * Math.pow(v[1] - 2 * v[3], 2)),
+                    4 * (50 + 3 * Math.pow(v[1] - 2 * v[2], 2)),
                     -24 * Math.pow(v[1] - 2 * v[2], 2),
                     0
                 },
                 {
                     0,
                     -24 * Math.pow(v[1] - 2 * v[2], 2),
-                    10 + 48 * Math.pow(v[1] - 2 * v[3], 2),
+                    10 + 48 * Math.pow(v[1] - 2 * v[2], 2),
                     -10
                 },
                 {
                     -120 * Math.pow(v[0] - v[3], 2),
                     0,
                     -10,
-                    10 * (-12 * Math.pow(v[0] - v[3], 2) + 1)
+                    10 * (12 * Math.pow(v[0] - v[3], 2) + 1)
                 }
         };
     }
