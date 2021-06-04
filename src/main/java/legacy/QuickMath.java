@@ -108,4 +108,8 @@ public class QuickMath {
     public static double[] getZeros(final int n) {
         return IntStream.range(0, n).mapToDouble(i -> 0.0).toArray();
     }
+
+    public static double[][] getDZeros(final int n) {
+        return IntStream.range(0, n).mapToObj(i -> getZeros(n)).toArray(double[][]::new);
+    }
 }
