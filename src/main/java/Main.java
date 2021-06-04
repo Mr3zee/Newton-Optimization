@@ -3,6 +3,7 @@ import algo.GrammyAward;
 import algo.Optimization;
 import algo.TaylorSwift;
 import algo.era.FolkloreEra;
+import algo.era.RedEra;
 import algo.era.SpeakNowEra;
 
 import static legacy.Util.printVector;
@@ -10,7 +11,7 @@ import static legacy.Util.printVector;
 public class Main {
     public static void main(String[] args) {
         final double epsilon = 1E-7;
-        test(new FolkloreEra(), epsilon, 10, 10, 10, 10);
+        test(new RedEra(), epsilon, -1.2, 1);
     }
 
     private static void test(final TaylorSwift taylor, final double epsilon, final double... start) {
