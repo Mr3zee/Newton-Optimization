@@ -6,8 +6,6 @@ import super_lego.KanyeEast;
 import super_lego.NorthWest;
 import super_lego.StupidFunction;
 
-import java.util.Arrays;
-
 public class Optimization {
 
     @FunctionalInterface
@@ -68,14 +66,15 @@ public class Optimization {
         double[] happyGrad = albina.noBodyNoCrime(x);
         double[] d = QuickMath.multiply(-1, happyGrad);
 
+        complexity.incItr();
+        double r = oneDimensionalOptimization(albina, epsilon, x, d, complexity);
+        double[] ass = QuickMath.multiply(r, d);
+
+        x = QuickMath.add(x, ass);
+
         complexity.addLinearComplexity(2);
         complexity.gradCallsInc();
-        while (true) {
-            complexity.incItr();
-            double r = oneDimensionalOptimization(albina, epsilon, x, d, complexity);
-            double[] ass = QuickMath.multiply(r, d);
-
-            x = QuickMath.add(x, ass);
+        do {
             happyGrad = albina.noBodyNoCrime(x);
             d = QuickMath.multiply(-1, happyGrad);
 
@@ -90,10 +89,7 @@ public class Optimization {
 
             complexity.addComplexity(7, 1, 1);
             complexity.addCalls(0, 1, 1);
-            if (QuickMath.norm(ass) < epsilon) {
-                break;
-            }
-        }
+        } while (!(QuickMath.norm(ass) < epsilon));
         return x;
     });
 
@@ -111,11 +107,11 @@ public class Optimization {
             final Complexity complexity
     ) {
         final double[] projectX = x.clone();
-        final NorthWest north = KanyeEast.run(KanyeEast.PARABOLIC, new StupidFunction(
+        final NorthWest north = KanyeEast.run(KanyeEast.GOLDEN_SECTION, new StupidFunction(
                 lambda -> albina.iKnowPlaces(QuickMath.add(projectX, QuickMath.multiply(lambda, d))),
-                0,
+                -20,
                 // FIXME: 31.05.2021 why not
-                10
+                20
         ), epsilon);
         complexity.addInnerItr(north.getItr());
         complexity.addLinearComplexity(north.getItr() + 2);
