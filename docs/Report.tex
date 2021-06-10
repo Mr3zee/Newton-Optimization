@@ -65,39 +65,47 @@
 
 \begin{enumerate}
  	\item \[f_1(x) = 50x^2+y^2+20x+20y+239\]
- 	Минимум достигается в точке $x_{min} = (-0,2; -10)$, значение минимума -- 137.
- 	
- 	\item \[f_2 = (x-2)^4+(y-3)^4+(z-4)^4\]
+ 	Минимум достигается в точке $x_{min} = (-0.2; -10)$, значение минимума -- 137.
+
+ 	\item \[ f_2(x) = x_1^4+2x_1^2 x_2-33x_1^2+2x_1 x_2^2-20x_1+x_2^4-19x_2^2-34x_2+389 \]
+ 	Минимум достигается в
+ 	\begin{itemize}
+ 		\item $x_{min} = (-4.562464212637666110367180311; -3.816079691599438559917622764)$;
+ 		\item $x_{min} = (-3.647700719794428590518679958; 3.694279458811207556710592285)$
+ 		\item $x_{min} = (3.809451227725493104867729487; 2.488081343580733273436836220)$
+ 		\item $x_{min} = (4.400713704706601596018130782; -2.366281110792502270229805741)$
+ 	\end{itemize}
+ 	Значение минимума во всех случаях 0.
+
+ 	\item \[ f_3 = (x-2)^4+(y-3)^4+(z-4)^4\]
  	Минимум достигается в точке $x_{min} = (2; 3; 4)$, значение минимума -- 0.
- 	
- 	\item \[f_3 = x_1^2+x_2^2-1.2x_1x_2\]
+
+ 	\item \[ f_4 = x_1^2+x_2^2-1.2x_1x_2\]
  	Минимум достигается в точке $x_{min} = (0; 0)$, значение минимума -- 0.
- 	
- 	\item \[f_4 = 100 (x_2-x_1^2)^2+(1-x_1)^2\]
+
+ 	\item \[ f_5 = 100 (x_2-x_1^2)^2+(1-x_1)^2\]
  	Минимум достигается в точке $x_{min} = (1; -1)$ и $x_{min} = (1; 1)$, значение минимума -- 0.
- 	
- 	\item \[ f_5 = (x_1^2+x_2-11)^2+(x_1+x_2^2-7)^2 \] 
- 	Минимум достигается в 
+
+ 	\item \[ f_6 = (x_1^2+x_2-11)^2+(x_1+x_2^2-7)^2 \]
+ 	Минимум достигается в
  	\begin{itemize}
  		\item $x_{min} = (3; 2)$;
  		\item $x_{min} = (-3.779310253377746891890765841; -3.283185991286169412266000514)$
  		\item $x_{min} = (-2.805118086952744853053572398; 3.131312518250572965804300723)$
  		\item $x_{min} = (3.584428340330491744944338239; -1.848126526964403553538300209)$
- 	\end{itemize} 
+ 	\end{itemize}
  	Значение минимума во всех случаях 0.
- 	 	
- 	\item \[ f_6 = (x_1+10x_2)^2+5(x_3-x_4)^2+(x_2-2x_3)64+10(x_1-x_4)^4 \]
+
+ 	\item \[ f_7 = (x_1+10x_2)^2+5(x_3-x_4)^2+(x_2-2x_3)^4+10(x_1-x_4)^4 \]
  	Минимум достигается в точке давайте расскажите как мне тут минимум посчитать.
- 	
- 	\item \[ f_7 = 100 - \frac{2}{1+\left( \frac{x_1-1}{2} \right) ^2 + \left( \frac{x_2-1}{3} \right) ^2} - \frac{1}{1+\left( \frac{x_1-2}{2} \right) ^2 + \left( \frac{x_2-1}{3} \right) ^2}\] 
+
+ 	\item \[ f_8 = 100 - \frac{2}{1+\left( \frac{x_1-1}{2} \right) ^2 + \left( \frac{x_2-1}{3} \right) ^2} - \frac{1}{1+\left( \frac{x_1-2}{2} \right) ^2 + \left( \frac{x_2-1}{3} \right) ^2}\]
  	Минимум достигается в точке $x_{min} = (1.291643031517492930227373527; 1)$, значение минимума -- 97.1531028728543166387604846.
- 	
+
  	\item Функция Розенброка:
  	\[ f = \sum_1^{n-1} 100(x_{i+1}-x_i^2)^2+(1-x_i)^2 \]
- 	Минимум ищите сами
+ 	Минимум достигается в точке $x_{i_{min}} = 1$, а $x_{{100}_{min}} = \pm 1$, значение минимума -- 0.0.
 \end{enumerate}
-
-
 
 \newpage
 \section{Метод Ньютона и его модификации}
@@ -114,7 +122,7 @@
 
 Полученная функция достигает минимума при $s: \; H(x)s = -g(x)$, так как необходимое условие минимума -- $\nabla q(x) = 0$:
 
-\[ \nabla q(x) = g(x)+H(x)s \] 
+\[ \nabla q(x) = g(x)+H(x)s \]
 
 Тогда вектор перемещения в точку минимума квадратичной функции
 
@@ -122,6 +130,7 @@
 
 Метод Ньютона минимизирует положительно определенную квадратичную функцию за один шаг из любой начальной точки $x_0$. Это метод второго порядка, так как используется вычисление гессиана -- вторые частные производные.
 
+\newpage
 \subsection{Классический метод Ньютона}
 
 Классический метод Ньютона является итерационным. Обозначая в текущей точке поиска $x_k$ значения градиента $g_k = \nabla f(x_k)$ и матрицы Гессе $H_k = \nabla^2 f(x_k)$ получаются следующие итерационные формулы метода Ньютона:
@@ -132,6 +141,83 @@
 
 Вектор $s$ находится за счет решения системы линейных уравнений LU-разложением, реализация которого была подробно рассмотрена в 3 лабораторной работе. Этот вектор задает и направление, и шаг перехода в следующую точку поиска.
 
+Иллюстрация работы:
+\begin{enumerate}
+	\item Исследование на $f_1$:
+
+	\begin{figure}[H]
+    	\centering
+    	\includegraphics[]{img/f1_1_1.png}
+    	\\ Начальное приближение $\left( 0; 0 \right)$
+    	\\ Количество итераций: 2
+    \end{figure}
+
+	\begin{figure}[H]
+    	\centering
+    	\includegraphics[]{img/f1_1_2.png}
+    	\\ Начальное приближение $\left( -3; 8 \right)$
+    	\\ Количество итераций: 2
+    \end{figure}
+
+	\begin{figure}[H]
+    	\centering
+    	\includegraphics[]{img/f1_1_3.png}
+    	\\ Начальное приближение $\left( 10; 10 \right)$
+    	\\ Количество итераций: 2
+    \end{figure}
+
+	\item Исследование на $f_2$
+
+		\begin{figure}[H]
+    	\centering
+    	\includegraphics[]{img/f2_1_1.png}
+    	\\ Начальное приближение $\left( 2; 3 \right)$
+    	\\ Количество итераций: 7
+    \end{figure}
+
+	\begin{figure}[H]
+    	\centering
+    	\includegraphics[]{img/f2_1_2.png}
+    	\\ Начальное приближение $\left( -7; -12 \right)$
+    	\\ Количество итераций: 8
+    \end{figure}
+
+	\begin{figure}[H]
+    	\centering
+    	\includegraphics[]{img/f2_1_3.png}
+    	\\ Начальное приближение $\left( 10; 10 \right)$
+    	\\ Количество итераций: 9
+    \end{figure}
+
+	\item Исследование на $f_3$
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\rowcolor[HTML]{FFF0DB}
+{\color[HTML]{333333} \textbf{\begin{tabular}[c]{@{}c@{}}Начальное\\ приближение\end{tabular}}} &
+  \textbf{\begin{tabular}[c]{@{}c@{}}Количество\\ итераций\end{tabular}} &
+  \textbf{\begin{tabular}[c]{@{}c@{}}Координаты\\ минимума\end{tabular}} &
+  \textbf{\begin{tabular}[c]{@{}c@{}}Значение\\ минимума\end{tabular}} \\ \hline
+$\left( 1; 2; 3 \right)$ &
+  40 &
+  \begin{tabular}[c]{@{}c@{}}{[}2.000000102464132, \\ 3.0000001014185793, \\ 4.000000100373027{]}\end{tabular} &
+  3.1752354967659026E-28 \\ \hline
+$\left( 0; 0; 0 \right)$ &
+  43 &
+  \begin{tabular}[c]{@{}c@{}}{[}2.000000102851373, \\ 3.000000102644844, \\ 4.000000102438316{]}\end{tabular} &
+  3.3302500930352387E-28 \\ \hline
+$\left( 10; 10; 10 \right)$ &
+  45 &
+  \begin{tabular}[c]{@{}c@{}}{[}2.000000091607024, \\ 3.0000000915152336, \\ 4.000000091423443{]}\end{tabular} &
+  2.1042463043355587E-28 \\ \hline
+\end{tabular}
+\end{table}
+
+\end{enumerate}
+
+\newpage
 \subsection{Метод Ньютона с одномерным поиском}
 
 Формулы метода Ньютона основаны на аппроксимации функции квадратичной функцией в малой окрестности текущей точки поиска и могут приводить к возрастанию значений функции. Для улучшения применяется одномерная минимизация функции в направлении поиска $s$.
@@ -146,16 +232,94 @@
 
 Метод Ньютона с одномерным поиском надежнее исходного метода Ньютона за счет обеспечения убывания значений целевой функции. Однако его эффективность существенно зависит от того, является ли направление поиска направлением спуска.
 
+Иллюстрация работы:
+\begin{enumerate}
+	\item Исследование на $f_1$:
+
+	\begin{figure}[H]
+    	\centering
+    	\includegraphics[]{img/f1_2_1.png}
+    	\\ Начальное приближение $\left( 0; 0 \right)$
+    	\\ Количество итераций: 2
+    \end{figure}
+
+	\begin{figure}[H]
+    	\centering
+    	\includegraphics[]{img/f1_2_2.png}
+    	\\ Начальное приближение $\left( -3; 8 \right)$
+    	\\ Количество итераций: 2
+    \end{figure}
+
+	\begin{figure}[H]
+    	\centering
+    	\includegraphics[]{img/f1_2_3.png}
+    	\\ Начальное приближение $\left( 10; 10 \right)$
+    	\\ Количество итераций: 2
+    \end{figure}
+
+	\item Исследование на $f_2$
+
+		\begin{figure}[H]
+    	\centering
+    	\includegraphics[]{img/f2_2_1.png}
+    	\\ Начальное приближение $\left( 2; 3 \right)$
+    	\\ Количество итераций: 7
+    \end{figure}
+
+	\begin{figure}[H]
+    	\centering
+    	\includegraphics[]{img/f2_2_2.png}
+    	\\ Начальное приближение $\left( -7; -12 \right)$
+    	\\ Количество итераций: 8
+    \end{figure}
+
+	\begin{figure}[H]
+    	\centering
+    	\includegraphics[]{img/f2_2_3.png}
+    	\\ Начальное приближение $\left( 10; 10 \right)$
+    	\\ Количество итераций: 9
+    \end{figure}
+
+	\item Исследование на $f_3$
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\rowcolor[HTML]{FFF0DB}
+{\color[HTML]{333333} \textbf{\begin{tabular}[c]{@{}c@{}}Начальное\\ приближение\end{tabular}}} &
+  \textbf{\begin{tabular}[c]{@{}c@{}}Количество\\ итераций\end{tabular}} &
+  \textbf{\begin{tabular}[c]{@{}c@{}}Координаты\\ минимума\end{tabular}} &
+  \textbf{\begin{tabular}[c]{@{}c@{}}Значение\\ минимума\end{tabular}} \\ \hline
+$\left( 1; 2; 3 \right)$ &
+  2 &
+  \begin{tabular}[c]{@{}c@{}}{[}2.0, \\ 3.0, \\ 4.0{]}\end{tabular} &
+  3.1859327586943765E-28 \\ \hline
+$\left( 0; 0; 0 \right)$ &
+  2 &
+  \begin{tabular}[c]{@{}c@{}}{[}1.9999999999999998, \\ 3.0, \\ 3.9999999999999996{]}\end{tabular} &
+  3.1029304856675849E-28 \\ \hline
+$\left( 10; 10; 10 \right)$ &
+  2 &
+  \begin{tabular}[c]{@{}c@{}}{[}2.0, \\ 3.0, \\ 4.0{]}\end{tabular} &
+  3.0004873436292834E-28 \\ \hline
+\end{tabular}
+\end{table}
+
+
+\end{enumerate}
+
+\newpage
 \subsection{Метод Ньютона с направлением спуска}
 
-Гарантией убывания значения функции является нахождение такого направления одномерного поиска, которое будет и направлением спуска. Метод Ньютона приводит к ошибочному направлению в точке максимума и в седловых точках. 
+Гарантией убывания значения функции является нахождение такого направления одномерного поиска, которое будет и направлением спуска. Метод Ньютона приводит к ошибочному направлению в точке максимума и в седловых точках.
 
 $s_k$ -- направление спуска, если скалярное произведение вектора направления из точки $x_k$ и вектора градиента в этой точке отрицательно (то есть между ними образуется тупой угол). Если же угол острый, то $s_k$ не является направлением убывания, следовательно, разумнее использовать направление антиградиента, так как оно гарантирует убывание функции.
 
 Таким образом, направление спуска задается следующим образом:
 
 \[ H_k s_k = -g_k \]
-\[ d_k = 
+\[ d_k =
 	\begin{cases}
 		s_k, \quad s_k^t g_k < 0 \\
 		-g_k, \quad s_k^t g_k \geq 0
@@ -171,6 +335,163 @@ $s_k$ -- направление спуска, если скалярное про
  	\item $x = x + s$
 \end{enumerate}
 
+Иллюстрация работы:
+\begin{enumerate}
+	\item Исследование на $f_1$:
+
+	\begin{figure}[H]
+    	\centering
+    	\includegraphics[]{img/f1_3_1.png}
+    	\\ Начальное приближение $\left( 0; 0 \right)$
+    	\\ Количество итераций: 2
+    \end{figure}
+
+	\begin{figure}[H]
+    	\centering
+    	\includegraphics[]{img/f1_3_2.png}
+    	\\ Начальное приближение $\left( -3; 8 \right)$
+    	\\ Количество итераций: 2
+    \end{figure}
+
+	\begin{figure}[H]
+    	\centering
+    	\includegraphics[]{img/f1_3_3.png}
+    	\\ Начальное приближение $\left( 10; 10 \right)$
+    	\\ Количество итераций: 2
+    \end{figure}
+
+	\item Исследование на $f_2$
+
+		\begin{figure}[H]
+    	\centering
+    	\includegraphics[]{img/f2_3_1.png}
+    	\\ Начальное приближение $\left( 2; 3 \right)$
+    	\\ Количество итераций: 7
+    \end{figure}
+
+	\begin{figure}[H]
+    	\centering
+    	\includegraphics[]{img/f2_3_2.png}
+    	\\ Начальное приближение $\left( -7; -12 \right)$
+    	\\ Количество итераций: 8
+    \end{figure}
+
+	\begin{figure}[H]
+    	\centering
+    	\includegraphics[]{img/f2_3_3.png}
+    	\\ Начальное приближение $\left( 10; 10 \right)$
+    	\\ Количество итераций: 9
+    \end{figure}
+
+	\item Исследование на $f_3$
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\rowcolor[HTML]{FFF0DB}
+{\color[HTML]{333333} \textbf{\begin{tabular}[c]{@{}c@{}}Начальное\\ приближение\end{tabular}}} &
+  \textbf{\begin{tabular}[c]{@{}c@{}}Количество\\ итераций\end{tabular}} &
+  \textbf{\begin{tabular}[c]{@{}c@{}}Координаты\\ минимума\end{tabular}} &
+  \textbf{\begin{tabular}[c]{@{}c@{}}Значение\\ минимума\end{tabular}} \\ \hline
+$\left( 1; 2; 3 \right)$ &
+  1 &
+  \begin{tabular}[c]{@{}c@{}}{[}2.0000000000000004, \\ 3.0000000000000004, \\ 4.0{]}\end{tabular} &
+  3.1752354967659026E-28 \\ \hline
+$\left( 0; 0; 0 \right)$ &
+  2 &
+  \begin{tabular}[c]{@{}c@{}}{[}2.0, \\ 3.0, \\ 4.0{]}\end{tabular} &
+  3.3302500930352387E-28 \\ \hline
+$\left( 10; 10; 10 \right)$ &
+  2 &
+  \begin{tabular}[c]{@{}c@{}}{[}2.0, \\ 3.0, \\ 4.0{]}\end{tabular} &
+  2.1042463043355587E-28 \\ \hline
+\end{tabular}
+\end{table}
+
+\end{enumerate}
+
+\newpage
+\subsection{Сравнение методов Ньютона}
+
+Сравнение производится между тремя методами Ньютона и методом наискорейшего спуска, реализованного в лабораторной работе №2.
+
+\begin{enumerate}
+	\item Исследование на $f_4$
+
+	\begin{figure}[H]
+	\begin{minipage}{.5\textwidth}
+    	\centering
+    	\includegraphics[scale=0.75]{img/f3_1.png}
+		\\ Классический метод Ньютона
+		\\ Количество итераций: 2
+	\end{minipage}
+    \begin{minipage}{.5\textwidth}
+    \centering
+    	\includegraphics[scale=0.75]{img/f3_2.png}
+    	\\ С одномерным поиском
+    	\\ Количество итераций: 2
+    \end{minipage}
+    \end{figure}
+
+	\begin{figure}[H]
+	\begin{minipage}{.5\textwidth}
+    	\centering
+    	\includegraphics[scale=0.75]{img/f3_3.png}
+		\\ С направлением спуска
+		\\ Количество итераций: 2
+	\end{minipage}
+    \begin{minipage}{.5\textwidth}
+    \centering
+    	\includegraphics[scale=0.75]{img/f3_4.png}
+    	\\ Метод наискорейшего спуска
+    	\\ Количество итераций: 15
+    \end{minipage}
+    \end{figure}
+
+    \begin{figure}[H]
+    	\centering
+    	\includegraphics[scale=0.6]{img/chart.png}
+    \end{figure}
+
+	\item Исследование на $f_5$
+
+	\begin{figure}[H]
+	\begin{minipage}{.5\textwidth}
+    	\centering
+    	\includegraphics[scale=0.75]{img/f4_1.png}
+		\\ Классический метод Ньютона
+		\\ Количество итераций: 7
+	\end{minipage}
+    \begin{minipage}{.5\textwidth}
+    \centering
+    	\includegraphics[scale=0.75]{img/f4_2.png}
+    	\\ С одномерным поиском
+    	\\ Количество итераций: 14
+    \end{minipage}
+    \end{figure}
+
+	\begin{figure}[H]
+	\begin{minipage}{.5\textwidth}
+    	\centering
+    	\includegraphics[scale=0.75]{img/f4_3.png}
+		\\ С направлением спуска
+		\\ Количество итераций: 6
+	\end{minipage}
+    \begin{minipage}{.5\textwidth}
+    \centering
+    	\includegraphics[scale=0.75]{img/f4_4.png}
+    	\\ Метод наискорейшего спуска
+    	\\ Количество итераций: 90
+    \end{minipage}
+    \end{figure}
+
+    \begin{figure}[H]
+    	\centering
+    	\includegraphics[scale=0.6]{img/chart_1.png}
+    \end{figure}
+\end{enumerate}
+
 \newpage
 \section{Квазиньютоновские методы}
 
@@ -184,7 +505,7 @@ $s_k$ -- направление спуска, если скалярное про
 
 \[ g_{k+1}-g_k = H(x_{k+1}-x_k) \]
 
-Пусть $p_k=g_{k+1}-g_k, \; s_k = x_{k+1}-x_k$, тогда $Gp_k=s_k$. Если известна аппроксимация для $G$, то следующее ее приближение в точке $x_{k+1}$ должно удовлетворять уравнению 
+Пусть $p_k=g_{k+1}-g_k, \; s_k = x_{k+1}-x_k$, тогда $Gp_k=s_k$. Если известна аппроксимация для $G$, то следующее ее приближение в точке $x_{k+1}$ должно удовлетворять уравнению
 
 \[ G_{k+1}p_k = s_k \]
 
@@ -200,7 +521,7 @@ $s_k$ -- направление спуска, если скалярное про
 
 \[ \frac{p_k p_k^T}{p_k^t s_k} - \frac{H_k s_k (H_k s_k)^T}{(H_k s_k)^T s_k} \]
 
-Поскольку аппроксимируется гессиан, а не обратная матрица, поэтому направление поиска ищется путем решения СЛАУ: $H_k d_k = -g_k$.
+Поскольку аппроксимируется гессиан, а не обратная матрица, направление поиска ищется путем решения СЛАУ: $H_k d_k = -g_k$.
 
 \subsection{Метод Пауэлла}
 
@@ -209,6 +530,249 @@ $s_k$ -- направление спуска, если скалярное про
 где $u_k = s_k - G_kp, \; p = \nabla f(x_{k+1}) - \nabla f(x_{k})$.
 
 Направление одномерного поиска $d_k = -Gg_k$.
+
+\subsection{Сравнение методов}
+
+\begin{enumerate}
+	\item Исследование на $f_5$
+	\begin{enumerate}
+
+	\item Метод Бройдена-Флетчера-Шено
+	\begin{figure}[H]
+	\begin{minipage}{.5\textwidth}
+    	\centering
+    	\includegraphics[]{img/f5_1_1.png}
+    	\\ Начальное приближение $\left( 0; 0 \right)$
+    	\\ Количество итераций: 11
+	\end{minipage}
+	\begin{minipage}{.5\textwidth}
+    	\centering
+    	\includegraphics[]{img/f5_1_2.png}
+    	\\ Начальное приближение $\left( 3; 5 \right)$
+    	\\ Количество итераций: 20
+	\end{minipage}
+    \end{figure}
+
+	\begin{figure}[H]
+    	\centering
+    	\includegraphics[]{img/f5_1_3.png}
+    	\\ Начальное приближение $\left( 10; 10 \right)$
+    	\\ Количество итераций: 31
+    \end{figure}
+
+	\item Метод Пауэлла
+	\begin{figure}[H]
+	\begin{minipage}{.5\textwidth}
+    	\centering
+    	\includegraphics[]{img/f5_2_1.png}
+    	\\ Начальное приближение $\left( 0; 0 \right)$
+    	\\ Количество итераций: 11
+	\end{minipage}
+	\begin{minipage}{.5\textwidth}
+    	\centering
+    	\includegraphics[]{img/f5_2_2.png}
+    	\\ Начальное приближение $\left( 3; 5 \right)$
+    	\\ Количество итераций: 19
+	\end{minipage}
+    \end{figure}
+
+	\begin{figure}[H]
+    	\centering
+    	\includegraphics[]{img/f5_2_3.png}
+    	\\ Начальное приближение $\left( 10; 10 \right)$
+    	\\ Количество итераций: 31
+    \end{figure}
+
+	\item Метод Ньютона с направлением спуска
+
+	\begin{figure}[H]
+	\begin{minipage}{.5\textwidth}
+    	\centering
+    	\includegraphics[]{img/f5_3_1.png}
+    	\\ Начальное приближение $\left( 0; 0 \right)$
+    	\\ Количество итераций: 8
+	\end{minipage}
+	\begin{minipage}{.5\textwidth}
+    	\centering
+    	\includegraphics[]{img/f5_3_2.png}
+    	\\ Начальное приближение $\left( 3; 5 \right)$
+    	\\ Количество итераций: 10
+	\end{minipage}
+    \end{figure}
+
+	\begin{figure}[H]
+    	\centering
+    	\includegraphics[]{img/f5_3_3.png}
+    	\\ Начальное приближение $\left( 10; 10 \right)$
+    	\\ Количество итераций: 18
+    \end{figure}
+
+	\end{enumerate}
+
+	\item Исследование на $f_6$
+	\begin{enumerate}
+
+	\item Метод Бройдена-Флетчера-Шено
+	\begin{figure}[H]
+	\begin{minipage}{.5\textwidth}
+    	\centering
+    	\includegraphics[]{img/f6_1_1.png}
+    	\\ Начальное приближение $\left( 0; 0 \right)$
+    	\\ Количество итераций: 9
+	\end{minipage}
+	\begin{minipage}{.5\textwidth}
+    	\centering
+    	\includegraphics[]{img/f6_1_2.png}
+    	\\ Начальное приближение $\left( -3; 2 \right)$
+    	\\ Количество итераций: 11
+	\end{minipage}
+    \end{figure}
+
+	\begin{figure}[H]
+    	\centering
+    	\includegraphics[]{img/f6_1_3.png}
+    	\\ Начальное приближение $\left( 10; 10 \right)$
+    	\\ Количество итераций: 7
+    \end{figure}
+
+	\item Метод Пауэлла
+	\begin{figure}[H]
+	\begin{minipage}{.5\textwidth}
+    	\centering
+    	\includegraphics[]{img/f6_2_1.png}
+    	\\ Начальное приближение $\left( 0; 0 \right)$
+    	\\ Количество итераций: 9
+	\end{minipage}
+	\begin{minipage}{.5\textwidth}
+    	\centering
+    	\includegraphics[]{img/f6_2_2.png}
+    	\\ Начальное приближение $\left( -3; 2 \right)$
+    	\\ Количество итераций: 9
+	\end{minipage}
+    \end{figure}
+
+	\begin{figure}[H]
+    	\centering
+    	\includegraphics[]{img/f6_2_3.png}
+    	\\ Начальное приближение $\left( 10; 10 \right)$
+    	\\ Количество итераций: 7
+    \end{figure}
+
+	\item Метод Ньютона с направлением спуска
+
+	\begin{figure}[H]
+	\begin{minipage}{.5\textwidth}
+    	\centering
+    	\includegraphics[]{img/f6_3_1.png}
+    	\\ Начальное приближение $\left( 0; 0 \right)$
+    	\\ Количество итераций: 8
+	\end{minipage}
+	\begin{minipage}{.5\textwidth}
+    	\centering
+    	\includegraphics[]{img/f6_3_2.png}
+    	\\ Начальное приближение $\left( -3; 2 \right)$
+    	\\ Количество итераций: 8
+	\end{minipage}
+    \end{figure}
+
+	\begin{figure}[H]
+    	\centering
+    	\includegraphics[]{img/f6_3_3.png}
+    	\\ Начальное приближение $\left( 10; 10 \right)$
+    	\\ Количество итераций: 6
+    \end{figure}
+
+	\end{enumerate}
+
+	\item Исследование на $f_7$
+
+	\begin{table}[H]
+	\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\rowcolor[HTML]{FFF0DB}
+{\color[HTML]{333333} \textbf{}} & \textbf{Метод БФШ} & \textbf{Метод Пауэлла} & \textbf{Метод Ньютона} \\ \hline
+$\left( 10; 10; 10; 10 \right)$ & 24 & 26 & 18 \\ \hline
+$\left( -3; 7; 2; 5 \right)$    & 33 & 31 & 28 \\ \hline
+$\left( 4; 6; -8; 4 \right)$    & 18 & 18 & 25 \\ \hline
+\end{tabular}
+\end{table}
+
+	\item Исследование на $f_8$
+	\begin{enumerate}
+
+	\item Метод Бройдена-Флетчера-Шено
+	\begin{figure}[H]
+	\begin{minipage}{.5\textwidth}
+    	\centering
+    	\includegraphics[]{img/f8_1_1.png}
+    	\\ Начальное приближение $\left( 0; 0 \right)$
+    	\\ Количество итераций: 35
+	\end{minipage}
+	\begin{minipage}{.5\textwidth}
+    	\centering
+    	\includegraphics[]{img/f8_1_2.png}
+    	\\ Начальное приближение $\left( 3; -5 \right)$
+    	\\ Количество итераций: 28
+	\end{minipage}
+    \end{figure}
+
+	\begin{figure}[H]
+    	\centering
+    	\includegraphics[]{img/f8_1_3.png}
+    	\\ Начальное приближение $\left( 10; 10 \right)$
+    	\\ Количество итераций: 8
+    \end{figure}
+
+	\item Метод Пауэлла
+	\begin{figure}[H]
+	\begin{minipage}{.5\textwidth}
+    	\centering
+    	\includegraphics[]{img/f8_2_1.png}
+    	\\ Начальное приближение $\left( 0; 0 \right)$
+    	\\ Количество итераций: 30
+	\end{minipage}
+	\begin{minipage}{.5\textwidth}
+    	\centering
+    	\includegraphics[]{img/f8_2_2.png}
+    	\\ Начальное приближение $\left( 3; -5 \right)$
+    	\\ Количество итераций: 49
+	\end{minipage}
+    \end{figure}
+
+	\begin{figure}[H]
+    	\centering
+    	\includegraphics[]{img/f8_2_3.png}
+    	\\ Начальное приближение $\left( 10; 10 \right)$
+    	\\ Количество итераций: 10
+    \end{figure}
+
+	\item Метод Ньютона с направлением спуска
+
+	\begin{figure}[H]
+	\begin{minipage}{.5\textwidth}
+    	\centering
+    	\includegraphics[]{img/f8_3_1.png}
+    	\\ Начальное приближение $\left( 0; 0 \right)$
+    	\\ Количество итераций: 29
+	\end{minipage}
+	\begin{minipage}{.5\textwidth}
+    	\centering
+    	\includegraphics[]{img/f8_3_2.png}
+    	\\ Начальное приближение $\left( 3; -5 \right)$
+    	\\ Количество итераций: 37
+	\end{minipage}
+    \end{figure}
+
+	\begin{figure}[H]
+    	\centering
+    	\includegraphics[]{img/f8_3_3.png}
+    	\\ Начальное приближение $\left( 10; 10 \right)$
+    	\\ Количество итераций: 52
+    \end{figure}
+
+	\end{enumerate}
+\end{enumerate}
 
 \newpage
 \section{Метод Марквардта}
@@ -226,9 +790,9 @@ $s_k$ -- направление спуска, если скалярное про
 \begin{enumerate}
 	\item При большом значении $\alpha$ матрицей $H$ можно пренебречь, тогда получается уравнение $\alpha Es = -g(x)$, и в этом случае направление вектора $s$ совпадает с антиградиентом (направление наискорейшего спуска).
 	\item При $\alpha \rightarrow 0$ можно пренебречь $\alpha E$, тогда $s$ -- шаг метода Ньютона.
-\end{enumerate} 
+\end{enumerate}
 
-Таким образом, выбрав начальное значение $\alpha_0$ достаточно большим, а затем уменьшая его, сначала будут выполняться шаги наискорейшего спуска, а на конечных этапах -- метода Ньютона. 
+Таким образом, выбрав начальное значение $\alpha_0$ достаточно большим, а затем уменьшая его, сначала будут выполняться шаги наискорейшего спуска, а на конечных этапах -- метода Ньютона.
 
 В общем виде:
 
@@ -244,14 +808,24 @@ $s_k$ -- направление спуска, если скалярное про
 
 Сложность метода в таком случае будет складываться из числа запусков алгоритма Холецкого. Его сложность -- $O(n^3)$
 
+\subsection{Исследование на функции Розенброка}
+
+Метод Ньютона с направлением спуска -- 149 итераций.
+Метод Марквардта с разложеникм Холецкого -- 145 итераций.
+
 \newpage
 \section{Выводы}
 
-Метод Марквардта позволяет устранить недостатки метода Ньютона -- невозможность корректировки длины шага и возможно плохую обсуловленность СЛАУ.
+Основной недостаток методов Ньютона -- использование матрицы вторых частных производных, требующее дополнительных вычислений.
 
+Классический метод Ньютона может расходиться для функции общего вида, возможно возрастание функции от итерации к итерации. Метод Ньютона с одномерным поиском частично устраняет этот недостаток классического метода. Однако его эффективность существенно зависит от того, является ли направление поиска направлением спуска.
 
+Самый надежный из них и требующий наименьшего количества итераций метод -- метод Ньютона с направлением спуска. Однако, все три метода ведут себя лучше реализованного ранее метода наискорейшего спуска.
 
+Недостаток метода Пауэлла -- возможность обращения в нуль знаменателя прибавки. Это происходит в случае, когда $s_k$ совпадает с направлением предыдущей итерации, и матрица $G_{k+1}$ становится вырожденной или неопределенной. Методы Бройдена-Флетчера-Шено и Пауэлла примерно равны между собой и различаются количеством внутренних вычислений. Хоть и метод Ньютона с направлением спуска работает за меньшее число итераций, эти два метода требуют меньшее число сложных вычислений (как, например, решение СЛАУ).
 
-Реализация: \href{https://github.com/Mr3zee/Linear-Equations}{GitHub}.
+Метод Марквардта позволяет устранить недостатки метода Ньютона -- невозможность корректировки длины шага и возможно плохую обсуловленность СЛАУ. С применением разложения Холецкого требуется меньшее количество итераций, чтобы найти точку минимума.
+
+Реализация: \href{https://github.com/Mr3zee/Newton-Optimization}{GitHub}.
 
 \end{document}
