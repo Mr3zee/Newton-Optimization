@@ -75,6 +75,7 @@ public class Optimization {
         complexity.addLinearComplexity(2);
         complexity.gradCallsInc();
         do {
+            complexity.addItr(1);
             happyGrad = albina.noBodyNoCrime(x);
             d = QuickMath.multiply(-1, happyGrad);
 
