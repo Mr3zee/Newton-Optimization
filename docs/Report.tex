@@ -97,7 +97,7 @@
  	Значение минимума во всех случаях 0.
 
  	\item \[ f_7 = (x_1+10x_2)^2+5(x_3-x_4)^2+(x_2-2x_3)^4+10(x_1-x_4)^4 \]
- 	Минимум достигается в точке давайте расскажите как мне тут минимум посчитать.
+ 	Минимум достигается в точке $x_{min} = (0; 0; 0; 0)$, значение минимума -- 0.
 
  	\item \[ f_8 = 100 - \frac{2}{1+\left( \frac{x_1-1}{2} \right) ^2 + \left( \frac{x_2-1}{3} \right) ^2} - \frac{1}{1+\left( \frac{x_1-2}{2} \right) ^2 + \left( \frac{x_2-1}{3} \right) ^2}\]
  	Минимум достигается в точке $x_{min} = (1.291643031517492930227373527; 1)$, значение минимума -- 97.1531028728543166387604846.
@@ -810,8 +810,33 @@ $\left( 4; 6; -8; 4 \right)$    & 18 & 18 & 25 \\ \hline
 
 \subsection{Исследование на функции Розенброка}
 
-Метод Ньютона с направлением спуска -- 149 итераций.
-Метод Марквардта с разложеникм Холецкого -- 145 итераций.
+\begin{table}[H]
+\begin{tabular}{|c|c|c|c|}
+\hline
+\rowcolor[HTML]{FFF0DB}
+{\color[HTML]{333333} \textbf{}} &
+  \textbf{\begin{tabular}[c]{@{}c@{}}С направлением\\ спуска\end{tabular}} &
+  \textbf{Метод Марквардта} &
+  \textbf{\begin{tabular}[c]{@{}c@{}}С разложением\\ Холецкого\end{tabular}} \\ \hline
+Количество итераций                                                                & 7   & 4881 & 143 \\ \hline
+\begin{tabular}[c]{@{}c@{}}Количество подсчетов\\ значения функции\end{tabular}    & 287 & 4882 & 0   \\ \hline
+\begin{tabular}[c]{@{}c@{}}Уоличество подстчетов\\ значения градиента\end{tabular} & 7   & 153  & 143 \\ \hline
+\begin{tabular}[c]{@{}c@{}}Уоличество подстчетов\\ значения гессиана\end{tabular}  & 6   & 153  & 143 \\ \hline
+\end{tabular}
+\end{table}
+
+Кликабельно:
+
+\begin{itemize}
+
+\item \href{https://github.com/Mr3zee/Newton-Optimization/blob/docs/docs/marquardt_alpha.txt}{Значения параметра $\alpha$ для обычного метода Марквардта}.
+
+\item \href{https://github.com/Mr3zee/Newton-Optimization/blob/docs/docs/marquardt_cholesky_alpha.txt}{Значения параметра $\alpha$ для метода Марквардта с разложением Холецкого}.
+
+\end{itemize}
+
+
+
 
 \newpage
 \section{Выводы}
